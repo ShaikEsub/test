@@ -19,3 +19,31 @@ To create a pull request for a public git repo, you need to follow these steps:
 -   Create a pull request from your forked repo to the original repo. You can do this by going to your forked repo on GitHub and clicking the **Compare & pull request** button. This will open a page where you can review your changes and add a title and a description for your pull request. You can also link your pull request to an issue if there is one related to your changes. Then click **Create pull request** to submit it.
 
 That's it! You have created a pull request for a public git repo. Now you need to wait for the maintainers of the original repo to review and merge your pull request. They might also ask you for some feedback or changes before merging it. You can communicate with them through the comments section of your pull request.
+
+
+
+# Real-time Speech-to-Text Transcription Steps to Run
+----------------------------------------
+
+This is the server component for the real-time speech-to-text application. It receives audio transcriptions from clients and broadcasts them back in real-time.
+
+## Prerequisites
+
+- Node.js (https://nodejs.org)
+
+## Getting Started
+
+1.Download the source code.
+
+2. Install the dependencies by running the following command:
+
+   npm install ws (to download websocket)
+Start the server by running the following command:
+----------------------
+node server.js
+----------------------
+The server will start listening on port 8000.
+
+Now open https://localhost:8000 to run the web application.
+
+

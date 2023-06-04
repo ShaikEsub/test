@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Speech-to-Text</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #recordButton {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #recordButton:hover {
+            background-color: #45a049;
+        }
+
+        #transcription {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 300px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #clearButton {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #clearButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <button id="recordButton">Start Transcription</button>
+    <div id="transcription"></div>
+    <button id="clearButton">Clear Output</button>
+
+    <script>
+        const recordButton = document.getElementById("recordButton");
+        const transcriptionElement = document.getElementById("transcription");
+        const clearButton = document.getElementById("clearButton");
+        let recognition;
+
+        recordButton.addEventListener("click", toggleRecording);
+        clearButton.addEventListener("click", clearOutput);
+
+        function toggleRecording() {
+            if (!recognition) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        }
+
+        function startRecording() {
+            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new window.SpeechRecognition(); // Create an instance of SpeechRecognition
+            recognition.continuous = true; // Enable continuous speech recognition
+            recognition.interimResults = true; // Enable interim results
+
+            recognition.onresult = function (event) {
+                const result = event.results[event.results.length - 1];
+                const transcript = result[0].transcript;
+                transcriptionElement.textContent = transcript;
+                socket.send(transcript);
+            };
+
+            recognition.start(); // Start speech recognition
+            recordButton.textContent = "Stop Recording";
+        }
+
+        function stopRecording() {
+            recognition.stop(); // Stop speech recognition
+            recognition = null;
+            recordButton.textContent = "Start Recording";
+        }
+
+        function clearOutput() {
+            transcriptionElement.textContent = "";
+        }
+    </script>
+</body>
+</html>
